@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Icon from 'react-native-vector-icons/Ionicons';
 import { StyleSheet, View, Text, TextInput, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const LoginScreen = () => {
@@ -18,17 +19,19 @@ const LoginScreen = () => {
             password: password
         }
 
-        fetch("http://172.20.10.3:8080/user/login", {
+        fetch("http://192.168.1.105:8080/session/login", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(bodyData)
-        }).then((res) => {
-            if (res.ok) {
+        }).then((res) => res.text())
+        .then(async (token) => {
+            if (token) {
+                await AsyncStorage.setItem("jwt", token);
                 navigaton.replace("Home");
             } else {
-                alert("Wrong Data!");
+                alert("Error")
             }
         })
         

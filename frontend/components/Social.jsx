@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 
 
-const Social = () => {
+const Social = ({ user }) => {
 
     return (
         <View style={styles.socialContainer}>
