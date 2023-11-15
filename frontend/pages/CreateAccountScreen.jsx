@@ -12,6 +12,27 @@ const CreateAccountScreen = () => {
 
     const navigaton = useNavigation();
 
+    const handleSignUp = () => {
+
+        if (password !== confirmedPassword) {
+            alert("Confirmed Password must equal password!");
+            return;
+        }
+
+        const bodyData = {
+            username: username,
+            password: password
+        }
+
+        fetch("http://172.20.10.3:8080/user/sign-up", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(bodyData)
+        })
+    }
+
     return (
         <View style={styles.signUpContainer}>
             <View style={styles.topContainer}>
@@ -73,7 +94,7 @@ const CreateAccountScreen = () => {
             </View>
             <View style={styles.bottomContainer}>
                 <View style={styles.socialSignUpContainer}>
-                    <TouchableOpacity style={styles.socialSignUpLink}>
+                    <TouchableOpacity onPress={handleSignUp} style={styles.socialSignUpLink}>
                         <Text style={styles.socialSignUpText}>Sign Up</Text>
                     </TouchableOpacity>
                 </View>
