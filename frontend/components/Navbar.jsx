@@ -1,10 +1,17 @@
-import React from "react";
-import { StyleSheet, Text, TextInput, View } from "react-native";
+import React, { useEffect, useRef } from "react";
+import { StyleSheet, Text, TextInput, View, TouchableOpacity, Animated } from "react-native";
 import Icon from 'react-native-vector-icons/Ionicons';
 
-const Navbar = () => {
+const Navbar = ({ activeTab, onHomeClick, onSocialClick, onSettingsClick }) => {
 
+    const underlinePosition = useRef(new Animated.Value(0)).current;
 
+    useEffect(() => {
+        Animated.spring(underlinePosition, {
+            toValue: activeTab === 'Home' ? 0 : activeTab === 'Social' ? 100 : 200,
+            useNativeDriver: true,
+        }).start();
+    }, [activeTab]);
 
     return (
         <View style={styles.navContainer}>
@@ -19,15 +26,23 @@ const Navbar = () => {
                     <Icon style={styles.icon} name="search-outline" size={27} color="#4F8EF7" />
                 </View>
                 <View style={styles.navLinkContainer}>
-                    <View>
+                    <TouchableOpacity onPress={onHomeClick}>
                         <Text style={styles.linkText}>Home</Text>
-                    </View>
-                    <View>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={onSocialClick}>
                         <Text style={styles.linkText}>Social</Text>
-                    </View>
-                    <View>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={onSettingsClick}>
                         <Text style={styles.linkText}>Settings</Text>
-                    </View>
+                    </TouchableOpacity>
+                    <Animated.View
+                        style={[
+                            styles.underline,
+                            {
+                                transform: [{ translateX: underlinePosition }]
+                            }
+                        ]}
+                    />
                 </View>
             </View>
         </View>
@@ -66,7 +81,15 @@ const styles = StyleSheet.create({
     linkText: {
         color: "black",
         fontWeight: "700"
-    }
+    },
+    underline: {
+        height: 4,
+        width: 70,
+        backgroundColor: 'blue',
+        position: 'absolute',
+        bottom: 10,
+        borderRadius: 100 
+    },
 })
 
 
