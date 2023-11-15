@@ -12,7 +12,26 @@ const LoginScreen = () => {
     const navigaton = useNavigation();
 
     const handleLogin = () => {
-        navigaton.replace("Home")
+
+        const bodyData = {
+            username: username,
+            password: password
+        }
+
+        fetch("http://172.20.10.3:8080/user/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(bodyData)
+        }).then((res) => {
+            if (res.ok) {
+                navigaton.replace("Home");
+            } else {
+                alert("Wrong Data!");
+            }
+        })
+        
     }
 
 
