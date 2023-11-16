@@ -2,11 +2,14 @@ import React, { useState } from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import profileImage from "../assets/profileImage.png";
 import * as ImagePicker from 'expo-image-picker';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useNavigation } from "@react-navigation/native";
 
 
 const Settings = ({ user }) => {
 
     const [profilePicture, setProfilePicture] = useState("");
+    const navigation = useNavigation();
 
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -53,6 +56,11 @@ const Settings = ({ user }) => {
         });
     };
 
+    const logout = async () => {
+        await AsyncStorage.removeItem("jwt");
+        navigation.replace("Login");
+    }
+
     return (
         <View style={styles.settingsContainer}>
             <View style={styles.profileContainer}>
@@ -74,6 +82,9 @@ const Settings = ({ user }) => {
                 </View>
 
             </View>
+            <TouchableOpacity onPress={logout}>
+                <Text>Logout</Text>
+            </TouchableOpacity>
         </View>
     )
 }

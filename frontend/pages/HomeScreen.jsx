@@ -11,7 +11,7 @@ import Settings from "../components/Settings";
 const HomeScreen = () => {
 
     const [activeTab, setActiveTab] = useState('Home');
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState({});
 
     const handleHomeClick = () => setActiveTab('Home');
     const handleSocialClick = () => setActiveTab('Social');
@@ -50,7 +50,7 @@ const HomeScreen = () => {
     return (
         
         <View style={styles.homeContainer}>
-            <Navbar activeTab={activeTab} onHomeClick={handleHomeClick} onSocialClick={handleSocialClick} onSettingsClick={handleSettingsClick} />        
+            <Navbar user={user} activeTab={activeTab} onHomeClick={handleHomeClick} onSocialClick={handleSocialClick} onSettingsClick={handleSettingsClick} />        
             <View style={styles.blackLayer}>
                 <View style={styles.topLayer}>
                     {activeTab === "Home" && (

@@ -1,10 +1,12 @@
+import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useRef } from "react";
 import { StyleSheet, Text, TextInput, View, TouchableOpacity, Animated } from "react-native";
 import Icon from 'react-native-vector-icons/Ionicons';
 
-const Navbar = ({ activeTab, onHomeClick, onSocialClick, onSettingsClick }) => {
+const Navbar = ({ user, activeTab, onHomeClick, onSocialClick, onSettingsClick }) => {
 
     const underlinePosition = useRef(new Animated.Value(0)).current;
+    const navigation = useNavigation();
 
     useEffect(() => {
         Animated.spring(underlinePosition, {
@@ -17,13 +19,17 @@ const Navbar = ({ activeTab, onHomeClick, onSocialClick, onSettingsClick }) => {
         <View style={styles.navContainer}>
             <View style={styles.container}>
                 <View style={styles.searchContainer}>
-                    <Icon style={styles.icon} name="camera-outline" size={27} color="#4F8EF7" />
+                    <TouchableOpacity onPress={() => navigation.replace("Upload", { user: user })}>
+                        <Icon style={styles.icon} name="camera-outline" size={27} color="#4F8EF7" />
+                    </TouchableOpacity>
                     <TextInput 
                         placeholder="Type here..."
                         placeholderTextColor={"#fff"}
                         style={{ color: "#fff" }}
                     />
-                    <Icon style={styles.icon} name="search-outline" size={27} color="#4F8EF7" />
+                    <TouchableOpacity>
+                        <Icon style={styles.icon} name="search-outline" size={27} color="#4F8EF7" />
+                    </TouchableOpacity>
                 </View>
                 <View style={styles.navLinkContainer}>
                     <TouchableOpacity onPress={onHomeClick}>
